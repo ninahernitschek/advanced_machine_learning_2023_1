@@ -1,0 +1,3259 @@
+
+%\documentclass{beamer}
+%\usetheme{progressbar}
+% \usecolortheme{progressbar}
+
+\documentclass{beamer}
+\usetheme{Berkeley}
+
+\setbeamertemplate{page number in head/foot}[framenumber]
+\setbeamertemplate{navigation symbols}{\footnotesize\usebeamertemplate{page number in head/foot}}
+
+
+
+\usepackage[absolute,overlay]{textpos}
+\usepackage[latin1]{inputenc}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\documentclass[serif,mathserif]{beamer}
+%
+\usepackage{amsmath, amsfonts, epsfig, xspace}
+
+%\usefonttheme[onlymath]{serif}
+ 
+%\usefonttheme{professionalfonts}
+ 
+\usepackage[absolute,overlay]{textpos}
+  \setlength{\TPHorizModule}{1mm}
+  \setlength{\TPVertModule}{1mm}
+  
+  
+%\usepackage{algorithm,algorithmic}
+\usepackage{amsmath, amsfonts, amssymb,amsthm,epsfig, xspace}
+%%benötigt für geschwungene Symbole \mathscr{ABC}
+\usepackage{mathrsfs}
+\usepackage{ stmaryrd } %for lightning symbol
+
+\usepackage{xcolor}
+\definecolor{bluegreen}{cmyk}{0.85,0,0.33,0}
+\definecolor{limegreen}{RGB}{151,203,56}
+%
+%%\usepackage{pstricks,pst-node}
+%%\usepackage{multimedia}
+%\usepackage[normal,tight,center]{subfigure}
+%\usepackage{ stmaryrd }
+%\setlength{\subfigcapskip}{-.5em}
+%\usepackage{beamerthemesplit}
+% \usepackage{paralist}
+%
+
+
+% \setbeamertemplate{caption}[numbered]
+%\usetheme{small-lankton-keynote}
+%\usetheme{lankton-keynote}
+
+%\newcommand*\xrightarrow[2][]{\ext@arrow 0359\rightarrowfill@{#1}{#2}}
+
+\definecolor{myblue2}{RGB}{117,153,206}
+\definecolor{myblue}{RGB}{30,144,200}
+
+
+
+\usepackage[absolute,overlay]{textpos}
+\usepackage{graphicx}
+
+% Befehle aus AMSTeX fuer mathematische Symbole z.B. \boldsymbol \mathbb ----
+\usepackage{amsmath,amsfonts, amssymb}
+
+%ben√∂tigt fuer geschwungene Symbole \mathscr{ABC}
+\usepackage{mathrsfs}
+
+
+\usepackage{enumitem}
+\setitemize{label=\usebeamerfont*{itemize item}%
+  \usebeamercolor[fg]{itemize item}
+  \usebeamertemplate{itemize item}}
+%%%%%%%%%%%%%%%
+
+
+\usepackage{tikz}
+\usetikzlibrary{backgrounds, calc, shadows, shadows.blur}
+
+\newcommand\addcurlyshadow[2][]{
+    % #1: Optional aditional tikz options
+    % #2: Name of the node to "decorate"
+    \begin{pgfonlayer}{background}
+        \rotatebox{10}{%
+            \path[blur shadow={shadow xshift=0pt, shadow yshift=0pt, shadow blur steps=6}, #1]
+            ($(#2.north west)+(.3ex,-.5ex)$)
+            -- ($(#2.south west)+(.5ex,-.7ex)$)
+            .. controls ($(#2.south)!.3!(#2.south west)$) .. (#2.south)
+            .. controls ($(#2.south)!.3!(#2.south east)$) .. ($(#2.south east)+(-.5ex,-.7ex)$)
+            -- ($(#2.north east)+(-.3ex, -.5ex)$)
+            -- cycle;
+        }
+    \end{pgfonlayer}
+}
+
+
+\DeclareMathOperator*{\argminA}{arg\,min} % Jan Hlavacek
+
+
+\usepackage{lmodern} % load a font with all the characters
+
+%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+% Title page frame
+
+\setbeamertemplate{sidebar left}{}
+\begin{frame}
+
+\large{Advanced Machine Learning (Semester 1 2023)}
+
+\vspace{1cm} 
+
+\Large{\textbf{Neural Network Architectures (II)}}
+
+
+\vspace{2cm} 
+
+\begin{small}
+
+\textbf{Nina Hernitschek}\\
+Centro de Astronom\'{i}a CITEVA\\
+Universidad de Antofagasta\\
+
+\vspace{1cm}
+
+April 24, 2023
+
+
+\end{small}
+
+\end{frame}
+
+\setbeamertemplate{sidebar left}[sidebar theme]
+\addtocounter{framenumber}{-1}
+
+\section[Recap]{Recap}
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Recap}
+
+\vspace{-0.15cm}	
+
+	
+Artificial neural networks (ANNs), usually simply called neural networks (NNs),  are mimicing processes in the human brain to \textbf{solve complex data-driven problems}. 
+
+The input data is processed through different \textbf{layers of artificial neurons} producing the desired output.\\
+
+\begin{textblock*}{9.0cm}(2.6cm,4.9cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth]{images/Neural_Network_Brain_Mimic.pdf}  \\
+\end{textblock*}
+
+}
+
+
+\addtocounter{framenumber}{-1}
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Recap}
+
+\vspace{-0.15cm}	
+
+	
+Artificial neural networks (ANNs), usually simply called neural networks (NNs),  are mimicing processes in the human brain to \textbf{solve complex data-driven problems}. 
+
+The input data is processed through different \textbf{layers of artificial neurons} producing the desired output.\\
+
+\begin{textblock*}{7.0cm}(2.6cm,4.4cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth]{images/Neural_Network_Brain_Mimic.pdf}  \\
+\end{textblock*}
+
+\vspace{3.2cm}
+
+\textbf{applications:}
+\begin{itemize}
+\item pattern recognition
+\item predictive modeling
+\item robotics
+\end{itemize}
+
+
+
+}
+
+
+
+	
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Recap}
+	
+\begin{textblock*}{3.0cm}(9.7cm,1.6cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={14cm 0cm 0 1cm},clip=True]{images/Neural_Network_Brain_Mimic.pdf}
+\end{textblock*}
+
+\begin{textblock*}{4.0cm}(9.6cm,1.7cm) % {block width} (coords)
+\textbf{\scriptsize{artificial neural network}}
+\end{textblock*}
+
+simple mathematical model of a \textbf{neuron} $k$:
+	
+	\begin{textblock*}{7.0cm}(1.9cm,3.0cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0cm 0cm 0 0},clip]{images/artificial_neuron_model.pdf}  \\
+\end{textblock*}
+
+
+\vspace{5.0cm}
+
+A neuron $k$ receives an $n$-dimensional input $\mathbf{x}$, which is weighted with the weight vector $\mathbf{w}$. The neuron fires a signal with an intensity given by the activation function $\varphi$ which controls the amplitude of the output to be within $[0,1]$.
+
+
+}
+
+	
+	
+	
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Recap}
+	
+\begin{footnotesize}
+
+	In contrast to \textbf{shallow neural networks} like the Perceptron (input, output, at most one hidden layer), modern \textbf{Deep-Learning Networks} can have dozens to hundreds of layers. Each layer trains on a distinct set of features based on the previous layer's output with increasing complexity since they aggregate and recombine features from the previous layer.
+
+\end{footnotesize}
+
+\begin{textblock*}{10.50cm}(2.0cm,4.4cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/comparison_deep_learning.pdf}
+\end{textblock*}
+}
+
+\addtocounter{framenumber}{-1}
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Recap}
+	
+\begin{footnotesize}
+
+In contrast to \textbf{shallow neural networks} like the Perceptron (input, output, at most one hidden layer), modern \textbf{Deep-Learning Networks} can have dozens to hundreds of layers. Each layer trains on a distinct set of features based on the previous layer's output with increasing complexity since they aggregate and recombine features from the previous layer.
+
+\end{footnotesize}
+
+\begin{textblock*}{1.0cm}(1.7cm,3.95cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim=0.0cm 0.0cm 0.0cm 0cm, clip=true]{images/arrow_right_white.pdf}    \end{textblock*}
+
+\begin{textblock*}{9.1cm}(3.0cm,4.2cm) % {block width} (coords)
+\begin{footnotesize}
+\textbf{feature hierarchy}
+\end{footnotesize}
+  \end{textblock*}
+
+\begin{textblock*}{9.0cm}(2.2cm,5.1cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/comparison_deep_learning.pdf}
+\end{textblock*}
+}
+
+\addtocounter{framenumber}{-1}
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Recap}
+	
+\begin{footnotesize}
+
+Unlike most traditional machine-learning algorithms, deep-learning networks perform \textbf{automatic feature extraction} without human intervention.
+
+\end{footnotesize}
+
+\begin{textblock*}{1.0cm}(1.7cm,3.45cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim=0.0cm 0.0cm 0.0cm 0cm, clip=true]{images/arrow_right_white.pdf}    \end{textblock*}
+
+\begin{textblock*}{9.1cm}(3.0cm,3.65cm) % {block width} (coords)
+\begin{footnotesize}
+
+ideal to structure large data sets with hard to define features (e.g.: images, videos, sound)
+
+\end{footnotesize}
+  \end{textblock*}
+  
+  
+\begin{textblock*}{9.0cm}(2.2cm,5.1cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/comparison_deep_learning.pdf}
+\end{textblock*}
+}
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Recap}
+	
+	\begin{footnotesize}
+	
+\textbf{Key Terms:}\\
+
+\vspace{0.5cm}
+
+     \textbf{Neuron:} A building block of ANN. It is responsible for accepting input data, performing calculations, and producing output. \\
+
+     \vspace{0.2cm}
+     
+          \textbf{Artificial Neural Network (ANN):} A computational system inspired by the way biological neural networks in the human brain process information. \\
+          
+          \vspace{0.2cm}
+          
+     \textbf{Deep Neural Network:} An ANN with many hidden layers placed between the input layer and the output layer. \\
+     
+          \vspace{0.2cm}
+          
+     \textbf{Weights:} The strength of the connection between two neurons. Weights determine what impact the input will have on the output. \\
+     
+          \vspace{0.2cm}
+          
+     \textbf{Bias:} An additional parameter used along with the sum of the product of weights and inputs to produce an output. \\
+     
+     \vspace{0.2cm}
+
+     \textbf{Activation Function:} Determines the output of a neural network. \\
+     
+     
+	\end{footnotesize}
+
+}
+	
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Motivation}
+
+How does the neural network \textbf{learn}?
+
+}
+
+\addtocounter{framenumber}{-1}
+	
+	
+	
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Motivation}
+
+
+How does the neural network \textbf{learn}?
+
+\vspace{0.5cm}
+
+
+Was does learning technically mean?
+
+}
+
+
+\addtocounter{framenumber}{-1}
+	
+	
+	
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Motivation}
+
+
+How does the neural network \textbf{learn}?
+
+\vspace{0.5cm}
+
+
+Was does learning technically mean?
+
+\begin{textblock*}{9.5cm}(1.9cm,3.95cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim=0.0cm 0.0cm 0.0cm 0cm, clip=true]{images/box1.pdf}    \end{textblock*}
+
+
+\vspace{0.8cm}
+
+    Recall that the \textbf{components} that make up a perceptron:\newline
+    The output depends on the inputs, weights, bias, and the activation function. The inputs (data) are fixed.\newline
+    The activation functions are parameterless functions.\\
+
+
+\vspace{0.8cm}
+
+The weights increase or decrease the strength of the signal at a connection. \\
+
+}
+	
+	
+\addtocounter{framenumber}{-1}
+
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Motivation}
+
+
+How does the neural network \textbf{learn}?
+
+\vspace{0.5cm}
+
+
+Was does learning technically mean?
+
+\begin{textblock*}{9.5cm}(1.9cm,3.95cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim=0.0cm 0.0cm 0.0cm 0cm, clip=true]{images/box1.pdf}    \end{textblock*}
+
+
+\vspace{0.8cm}
+
+    Recall that the \textbf{components} that make up a perceptron:\newline
+    The output depends on the inputs, weights, bias, and the activation function. The inputs (data) are fixed.\newline
+    The activation functions are parameterless functions.\\
+
+
+\vspace{0.8cm}
+
+The weights increase or decrease the strength of the signal at a connection. \\
+
+
+
+\begin{textblock*}{1.1cm}(1.7cm,8cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim=0.0cm 0.0cm 0.0cm 0cm, clip=true]{images/arrow_right_white.pdf}    \end{textblock*}
+
+
+\begin{textblock*}{9.1cm}(3.0cm,8.25cm) % {block width} (coords)
+ to train a perceptron, \textbf{adjust the weights} \end{textblock*}
+
+}
+
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Motivation}
+	
+in a (multi-layer) perceptron weights are first assigned at random and then updated iteratively by supervised learning until the best set of weights is found
+
+\begin{textblock*}{1.0cm}(1.9cm,5.95cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim=0.0cm 0.0cm 0.0cm 0cm, clip=true]{images/questionmark.pdf}    \end{textblock*}
+
+\begin{textblock*}{9.1cm}(3.0cm,6.40cm) % {block width} (coords)
+What is the "best" set of weights?\end{textblock*}
+
+}
+
+%
+%The "signal" at a connection is a real number, and the output of each neuron is computed by some non-linear function of the sum of its inputs. The connections are called edges. Neurons and edges typically have a weight that adjusts as learning proceeds. The weight increases or decreases the strength of the signal at a connection. Neurons may have a threshold such that a signal is sent only if the aggregate signal crosses that threshold. Typically, neurons are aggregated into layers. Different layers may perform different transformations on their inputs. Signals travel from the first layer (the input layer), to the last layer (the output layer), possibly after traversing the layers multiple times.
+%
+%
+%
+%%%Once an input layer is determined, weights are assigned. These weights help determine the importance of any given variable, with larger ones contributing more significantly to the output compared to other inputs. All inputs are then multiplied by their respective weights and then summed. Afterward, the output is passed through an activation function, which determines the output. If that output exceeds a given threshold, it “fires” (or activates) the node, passing data to the next layer in the network. This results in the output of one node becoming in the input of the next node. This process of passing data from one layer to the next layer defines this neural network as a feedforward network.
+
+\section[Feed-Forward Networks]{Feed-Forward Networks}
+
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Feed-Forward Neural Networks}
+	
+	\begin{footnotesize}
+	
+	\vspace{-0.15cm}
+	
+	we've seen:\\
+A  perceptron represents a single neuron. Perceptrons stacked in a row and piled in different layers build a (deep learning) neural network.\\
+
+\end{footnotesize}
+}
+
+\addtocounter{framenumber}{-1}
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Feed-Forward Neural Networks}
+	
+	\begin{footnotesize}
+	
+	\vspace{-0.15cm}
+	
+	we've seen:\\
+A  perceptron represents a single neuron. Perceptrons stacked in a row and piled in different layers build a (deep learning) neural network.\\
+
+
+\vspace{0.35cm}
+
+A \textbf{feed-forward neural network} (FNN) is a multi-layer neural network where the data moves in a single direction from the input nodes, to the hidden layers where calculations happen, and leaves at the output layer.
+
+
+\begin{textblock*}{7.25cm}(2.8cm,4.66cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/neural_network_hiddenlayers_feedforward.pdf}
+\end{textblock*}
+
+
+	\end{footnotesize}
+
+}
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Feed-Forward Neural Networks}
+	
+	\begin{footnotesize}
+	
+	\vspace{-0.15cm}
+	
+	we've seen:\\
+A  perceptron represents a single neuron. Perceptrons stacked in a row and piled in different layers build a (deep learning) neural network.\\
+
+
+\vspace{0.35cm}
+
+A \textbf{feed-forward neural network} (FNN) is a multi-layer neural network where the data moves in a single direction from the input nodes, to the hidden layers where calculations happen, and leaves at the output layer.
+
+
+\begin{textblock*}{5.5cm}(3.8cm,4.55cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/neural_network_hiddenlayers_feedforward.pdf}
+\end{textblock*}
+
+
+\vspace{3.8cm}
+
+
+Layers give no feedback to the previous layers (different from e.g. a recurrent neural network where connections form cycles*). 
+
+\vspace{0.1cm}
+
+
+*more on this later
+\end{footnotesize}
+
+}
+
+
+
+
+%In the forward pass, the information comes inside the model through the input layer, passes through the series of hidden layers, and finally goes to the output layer. This eural Networks architecture is forward in nature - the information does not loop with two hidden layers.
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Feed-Forward Neural Networks}
+	
+	
+	
+\begin{textblock*}{9.2cm}(2.8cm,2.9cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/neural_network_hiddenlayers_feedforward_2.pdf}
+\end{textblock*}
+
+\begin{textblock*}{7.7cm}(2.6cm,8.6cm) % {block width} (coords)
+\begin{footnotesize}
+picks up signals and \\ \vspace{-0.1cm} passes them to the \\ \vspace{-0.15cm} next layer
+\end{footnotesize}
+\end{textblock*}
+
+\begin{textblock*}{7.7cm}(6.3cm,8.9cm) % {block width} (coords)
+\begin{footnotesize}
+calculations
+\end{footnotesize}
+\end{textblock*}
+
+\begin{textblock*}{7.7cm}(10.1cm,8.6cm) % {block width} (coords)
+\begin{footnotesize}
+delivers the \\ \vspace{-0.1cm} final result
+\end{footnotesize}
+\end{textblock*}
+
+
+\begin{textblock*}{0.65cm}(4.10cm,4.26cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/whitetextbox.png}
+\end{textblock*}
+
+\begin{textblock*}{2.7cm}(4.20cm,4.35cm) % {block width} (coords)
+$w_1$\\  
+$w_2$\\ 
+$\vdots$\\ 
+$w_n$
+\end{textblock*}
+%
+%
+\begin{textblock*}{0.65cm}(6.05cm,4.26cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/whitetextbox.png}
+\end{textblock*}
+
+\begin{textblock*}{2.7cm}(6.15cm,4.35cm) % {block width} (coords)
+$w_1$\\  
+$w_2$\\ 
+$\vdots$\\ 
+$w_n$
+\end{textblock*}
+
+
+%
+%
+\begin{textblock*}{0.65cm}(8.0cm,4.26cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/whitetextbox.png}
+\end{textblock*}
+
+\begin{textblock*}{2.7cm}(8.1cm,4.35cm) % {block width} (coords)
+$w_1$\\  
+$w_2$\\ 
+$\vdots$\\ 
+$w_n$
+\end{textblock*}
+
+%
+%
+\begin{textblock*}{0.65cm}(9.95cm,4.26cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/whitetextbox.png}
+\end{textblock*}
+
+\begin{textblock*}{2.7cm}(10.05cm,4.35cm) % {block width} (coords)
+$w_1$\\  
+$w_2$\\ 
+$\vdots$\\ 
+$w_n$
+\end{textblock*}
+
+
+
+
+\begin{textblock*}{7.7cm}(1.9cm,1.65cm) % {block width} (coords)
+\begin{footnotesize}
+calculate weighted sum \\ \vspace{-0.15cm} and add bias:
+\end{footnotesize}
+\end{textblock*}
+
+
+\begin{textblock*}{7.7cm}(-1.0cm,2.25cm) % {block width} (coords)
+\begin{footnotesize}
+\begin{equation*}
+\sum_i w_i x_i  \; + b
+\end{equation*}
+\end{footnotesize}
+\end{textblock*}
+
+\begin{textblock*}{1.86cm}(2.8cm,2.76cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/neural_network_hiddenlayers_feedforward_arrow1.pdf}
+\end{textblock*}
+
+}
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Feed-Forward Neural Networks}
+	
+	
+	
+\begin{textblock*}{9.2cm}(2.8cm,2.9cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/neural_network_hiddenlayers_feedforward_2.pdf}
+\end{textblock*}
+
+\begin{textblock*}{7.7cm}(2.6cm,8.6cm) % {block width} (coords)
+\begin{footnotesize}
+picks up signals and \\ \vspace{-0.1cm} passes them to the \\ \vspace{-0.15cm} next layer
+\end{footnotesize}
+\end{textblock*}
+
+\begin{textblock*}{7.7cm}(6.3cm,8.9cm) % {block width} (coords)
+\begin{footnotesize}
+calculations
+\end{footnotesize}
+\end{textblock*}
+
+\begin{textblock*}{7.7cm}(10.1cm,8.6cm) % {block width} (coords)
+\begin{footnotesize}
+delivers the \\ \vspace{-0.1cm} final result
+\end{footnotesize}
+\end{textblock*}
+
+
+\begin{textblock*}{0.65cm}(4.10cm,4.26cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/whitetextbox.png}
+\end{textblock*}
+
+\begin{textblock*}{2.7cm}(4.20cm,4.35cm) % {block width} (coords)
+$w_1$\\  
+$w_2$\\ 
+$\vdots$\\ 
+$w_n$
+\end{textblock*}
+%
+%
+\begin{textblock*}{0.65cm}(6.05cm,4.26cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/whitetextbox.png}
+\end{textblock*}
+
+\begin{textblock*}{2.7cm}(6.15cm,4.35cm) % {block width} (coords)
+$w_1$\\  
+$w_2$\\ 
+$\vdots$\\ 
+$w_n$
+\end{textblock*}
+
+
+%
+%
+\begin{textblock*}{0.65cm}(8.0cm,4.26cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/whitetextbox.png}
+\end{textblock*}
+
+\begin{textblock*}{2.7cm}(8.1cm,4.35cm) % {block width} (coords)
+$w_1$\\  
+$w_2$\\ 
+$\vdots$\\ 
+$w_n$
+\end{textblock*}
+
+%
+%
+\begin{textblock*}{0.65cm}(9.95cm,4.26cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/whitetextbox.png}
+\end{textblock*}
+
+\begin{textblock*}{2.7cm}(10.05cm,4.35cm) % {block width} (coords)
+$w_1$\\  
+$w_2$\\ 
+$\vdots$\\ 
+$w_n$
+\end{textblock*}
+
+
+
+
+\begin{textblock*}{1.86cm}(2.8cm,2.76cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/neural_network_hiddenlayers_feedforward_arrow1.pdf}
+\end{textblock*}
+
+
+
+\begin{textblock*}{7.7cm}(1.9cm,1.65cm) % {block width} (coords)
+\begin{footnotesize}
+activation function $\varphi$ \\ \vspace{-0.15cm} controls output amplitude:
+\end{footnotesize}
+\end{textblock*}
+
+
+\begin{textblock*}{7.7cm}(-1.0cm,2.25cm) % {block width} (coords)
+\begin{footnotesize}
+\begin{equation*}
+\varphi(\sum_i w_i x_i  \; + b)
+\end{equation*}
+\end{footnotesize}
+\end{textblock*}
+
+
+}
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Feed-Forward Neural Networks}
+	
+	
+	
+\begin{textblock*}{9.2cm}(2.8cm,2.9cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/neural_network_hiddenlayers_feedforward_2.pdf}
+\end{textblock*}
+
+\begin{textblock*}{7.7cm}(2.6cm,8.6cm) % {block width} (coords)
+\begin{footnotesize}
+picks up signals and \\ \vspace{-0.1cm} passes them to the \\ \vspace{-0.15cm} next layer
+\end{footnotesize}
+\end{textblock*}
+
+\begin{textblock*}{7.7cm}(6.3cm,8.9cm) % {block width} (coords)
+\begin{footnotesize}
+calculations
+\end{footnotesize}
+\end{textblock*}
+
+\begin{textblock*}{7.7cm}(10.1cm,8.6cm) % {block width} (coords)
+\begin{footnotesize}
+delivers the \\ \vspace{-0.1cm} final result
+\end{footnotesize}
+\end{textblock*}
+
+
+\begin{textblock*}{0.65cm}(4.10cm,4.26cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/whitetextbox.png}
+\end{textblock*}
+
+\begin{textblock*}{2.7cm}(4.20cm,4.35cm) % {block width} (coords)
+$w_1$\\  
+$w_2$\\ 
+$\vdots$\\ 
+$w_n$
+\end{textblock*}
+%
+%
+\begin{textblock*}{0.65cm}(6.05cm,4.26cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/whitetextbox.png}
+\end{textblock*}
+
+\begin{textblock*}{2.7cm}(6.15cm,4.35cm) % {block width} (coords)
+$w_1$\\  
+$w_2$\\ 
+$\vdots$\\ 
+$w_n$
+\end{textblock*}
+
+
+%
+%
+\begin{textblock*}{0.65cm}(8.0cm,4.26cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/whitetextbox.png}
+\end{textblock*}
+
+\begin{textblock*}{2.7cm}(8.1cm,4.35cm) % {block width} (coords)
+$w_1$\\  
+$w_2$\\ 
+$\vdots$\\ 
+$w_n$
+\end{textblock*}
+
+%
+%
+\begin{textblock*}{0.65cm}(9.95cm,4.26cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/whitetextbox.png}
+\end{textblock*}
+
+\begin{textblock*}{2.7cm}(10.05cm,4.35cm) % {block width} (coords)
+$w_1$\\  
+$w_2$\\ 
+$\vdots$\\ 
+$w_n$
+\end{textblock*}
+
+
+
+\begin{textblock*}{7.5cm}(2.8cm,2.76cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/neural_network_hiddenlayers_feedforward_arrowall.pdf}
+\end{textblock*}
+
+\begin{textblock*}{7.7cm}(1.9cm,1.65cm) % {block width} (coords)
+\begin{footnotesize}
+activation function $\varphi$ \\ \vspace{-0.15cm} controls output amplitude:
+\end{footnotesize}
+\end{textblock*}
+
+
+\begin{textblock*}{7.7cm}(-1.0cm,2.25cm) % {block width} (coords)
+\begin{footnotesize}
+\begin{equation*}
+\varphi(\sum_i w_i x_i  \; + b)
+\end{equation*}
+\end{footnotesize}
+\end{textblock*}
+
+
+}
+
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Feed-Forward Networks}
+	
+	We have to find a \textbf{mathematical notation} for that.
+	
+	\vspace{0.2cm}
+	
+	\pause
+	
+	We've seen:
+	
+		\vspace{0.1cm}
+	
+The Perceptron is mathematically represented as:\\
+\begin{equation*}
+y = \varphi(w_1 x_1 + w_2 x_2 + ... + w_n x_n +b)
+= \varphi(\mathbf{w} \cdot \mathbf{x} + b)
+\end{equation*}
+\vspace{-0.07cm}
+with
+\vspace{-0.07cm}
+\begin{equation*}
+  \varphi(\mathbf{w} \cdot \mathbf{x}+b)=\begin{cases}
+    1, & \text{if $\mathbf{w} \cdot \mathbf{x}+b \geq 0$}\\
+    0, & \text{otherwise}.
+  \end{cases}
+\end{equation*}
+where $\mathbf{w}$ is a vector of real-valued weights, $\mathbf{w} \cdot \mathbf{x}$ is the dot product $\sum_{i=1}^{n} w_{i}x_{i}$, where $n$ is the input vector dimension, and $b$ is the bias.\\
+
+\pause
+
+		\vspace{0.2cm}
+		
+For a particular choice of  $\mathbf{w}$ and $b$, the output $y$ only depends on the input vector $\mathbf{x}$. \\
+
+}
+	
+
+\frame[t]
+{
+
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Feed-Forward Networks - Mathematical Notation}
+	
+		\begin{footnotesize}
+	
+The Perceptron is mathematically represented as:
+\begin{equation*}
+y = \varphi(w_1 x_1 + w_2 x_2 + ... + w_n x_n +b)
+= \varphi(\mathbf{w} \cdot \mathbf{x} + b)
+\end{equation*}
+
+
+		\vspace{0.2cm}
+
+	first an \textbf{example}: Going swimming or not (Yes: 1, No: 0). The decision is our predicted outcome, or $y$. Let's assume the decision is based on three factors:\\
+
+	\end{footnotesize}
+
+\begin{textblock*}{7.7cm}(2.3cm,5.1cm) % {block width} (coords)
+\begin{footnotesize}
+Is the water warm? (Yes: 1, No: 0)\\
+Is the beach empty? (Yes: 1, No: 0)\\
+Was there a recent shark attack? (Yes: 0, No: 1)\\
+\end{footnotesize}
+\end{textblock*}
+}
+	
+	
+\frame[t]
+{
+
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Feed-Forward Networks - Mathematical Notation}
+	
+	\begin{footnotesize}
+	
+The Perceptron is mathematically represented as:
+\begin{equation*}
+y = \varphi(w_1 x_1 + w_2 x_2 + ... + w_n x_n +b)
+= \varphi(\mathbf{w} \cdot \mathbf{x} + b)
+\end{equation*}
+
+
+		\vspace{0.2cm}
+
+	first an \textbf{example}: Going swimming or not (Yes: 1, No: 0). The decision is our predicted outcome, or $y$. Let's assume the decision is based on three factors:\\
+
+	\end{footnotesize}
+
+\begin{textblock*}{7.7cm}(2.3cm,5.1cm) % {block width} (coords)
+\begin{footnotesize}
+Is the water warm? (Yes: 1, No: 0)\\
+Is the beach empty? (Yes: 1, No: 0)\\
+Was there a recent shark attack? (Yes: 0, No: 1)\\
+\end{footnotesize}
+\end{textblock*}
+
+
+\begin{textblock*}{7.7cm}(9.9cm,5.1cm) % {block width} (coords)
+\begin{footnotesize}
+$x_1$ = 1\\
+$x_2$ = 0\\
+$x_3$ = 1\\
+\end{footnotesize}
+\end{textblock*}
+
+}
+
+
+
+
+
+\frame[t]
+{
+
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Feed-Forward Networks - Mathematical Notation}
+	
+	\begin{footnotesize}
+	
+The Perceptron is mathematically represented as:
+\begin{equation*}
+y = \varphi(w_1 x_1 + w_2 x_2 + ... + w_n x_n +b)
+= \varphi(\mathbf{w} \cdot \mathbf{x} + b)
+\end{equation*}
+
+
+		\vspace{0.2cm}
+
+	first an \textbf{example}: Going swimming or not (Yes: 1, No: 0). The decision is our predicted outcome, or $y$. Let's assume the decision is based on three factors:\\
+
+	\end{footnotesize}
+
+\begin{textblock*}{7.7cm}(2.3cm,5.1cm) % {block width} (coords)
+\begin{footnotesize}
+Is the water warm? (Yes: 1, No: 0)\\
+Is the beach empty? (Yes: 1, No: 0)\\
+Was there a recent shark attack? (Yes: 0, No: 1)\\
+\end{footnotesize}
+\end{textblock*}
+
+
+\begin{textblock*}{7.7cm}(9.9cm,5.1cm) % {block width} (coords)
+\begin{footnotesize}
+$x_1$ = 1\\
+$x_2$ = 0\\
+$x_3$ = 1\\
+\end{footnotesize}
+\end{textblock*}
+
+\begin{textblock*}{7.7cm}(2.1cm,6.6cm) % {block width} (coords)
+\begin{footnotesize}
+Also, we set for the weights:
+\end{footnotesize}
+\end{textblock*}
+
+
+\begin{textblock*}{7.7cm}(2.3cm,7.2cm) % {block width} (coords)
+\begin{footnotesize}
+$w_1$ = 4, since the water isn't often warm\\
+$w_2$ = 2, since you're used to the crowds\\
+$w_3$ = 4, since you have a fear of sharks\\
+\end{footnotesize}
+\end{textblock*}
+
+\begin{textblock*}{12.7cm}(2.1cm,8.6cm) % {block width} (coords)
+\begin{footnotesize}
+With a threshold value of 3 ($b$ = -3), we finally get\\
+$y = \varphi(1\!\times\!4 + 0\!\times\!2 + 1\!\times\!4 -3) = \varphi(5)=1$ (decision: go!)
+\end{footnotesize}
+\end{textblock*}
+
+
+
+\begin{textblock*}{3.0cm}(9.8cm,6.7cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/heaviside_fct.png}
+\end{textblock*}
+
+}
+
+
+%%%If we use the Heaviside activation function, we can determine that the output of this node would be 1, since 5 is greater than 0. In this instance, you would go surfing; but if we adjust the weights or the threshold, we can achieve different outcomes from the model. When we observe one decision, like in the above example, we can see how a neural network could make increasingly complex decisions depending on the output of previous decisions or layers.
+%%%
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+
+	\frametitle{Feed-Forward Networks - Mathematical Notation}
+ 
+\vspace{-0.1cm}  
+
+  \begin{footnotesize}
+based on the perceptron: forward propagation process for a \textbf{2-layer perceptron} with a single data set with only 3 features $x_1$, $x_2$, $x_3$\\
+ \end{footnotesize}
+
+\begin{textblock*}{5.2cm}(2.2cm,2.7cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/forwardpropagation_1.pdf}
+\end{textblock*}
+ 
+  
+  }
+
+
+
+\addtocounter{framenumber}{-1}
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+
+	\frametitle{Feed-Forward Networks - Mathematical Notation}
+ 
+\vspace{-0.1cm}  
+
+  \begin{footnotesize}
+based on the perceptron: forward propagation process for a \textbf{2-layer perceptron} with a single data set with only 3 features $x_1$, $x_2$, $x_3$\\
+ \end{footnotesize}
+
+\begin{textblock*}{5.2cm}(2.2cm,2.7cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/forwardpropagation_1.pdf}
+\end{textblock*}
+
+
+\begin{textblock*}{8.2cm}(6.5cm,4.2cm) % {block width} (coords)
+\begin{scriptsize}
+superscript bracket denotes the $i$-th layer\\
+subscript denotes the $j$-th node in a layer
+\end{scriptsize}
+\end{textblock*}
+
+
+\begin{textblock*}{11.2cm}(-1.3cm,5.9cm) % {block width} (coords)
+\begin{equation*}
+\mathbf{z}^{[1]} =\mathbf{w}^{[1]}\cdot\mathbf{x}+b^{[1]}
+\end{equation*}
+ \end{textblock*}
+ 
+\begin{textblock*}{11.2cm}(1.8cm,6.2cm) % {block width} (coords)
+\[ 
+\left. \begin{array}{r} 
+z_1^{[1]}=\mathbf{w}_1^{[1]}\mathbf{x}+b_1^{[1]} \Rightarrow a_1^{[1]}=\varphi(z_1^{[1]})\\[1ex]
+z_2^{[1]}=\mathbf{w}_2^{[1]}\mathbf{x}+b_2^{[1]} \Rightarrow a_2^{[1]}=\varphi(z_2^{[1]})\\[1ex]
+z_3^{[1]}=\mathbf{w}_3^{[1]}\mathbf{x}+b_3^{[1]} \Rightarrow a_3^{[1]}=\varphi(z_3^{[1]})\\[1ex]
+z_4^{[1]}=\mathbf{w}_4^{[1]}\mathbf{x}+b_4^{[1]} \Rightarrow a_4^{[1]}=\varphi(z_4^{[1]})
+\end{array} \right\} 
+\;\;z^{[2]}=\mathbf{w}^{[2]}\mathbf{a}^{[1]}+b^{[2]}
+\]
+ \end{textblock*}
+ }
+ 
+ 
+ 
+\addtocounter{framenumber}{-1}
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+
+	\frametitle{Feed-Forward Networks - Mathematical Notation}
+ 
+\vspace{-0.1cm}  
+
+  \begin{footnotesize}
+based on the perceptron: forward propagation process for a \textbf{2-layer perceptron} with a single data set with only 3 features $x_1$, $x_2$, $x_3$\\
+ \end{footnotesize}
+
+\begin{textblock*}{5.2cm}(2.2cm,2.7cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/forwardpropagation_1.pdf}
+\end{textblock*}
+
+
+\begin{textblock*}{8.2cm}(6.5cm,4.2cm) % {block width} (coords)
+\begin{scriptsize}
+superscript bracket denotes the $i$-th layer\\
+subscript denotes the $j$-th node in a layer
+\end{scriptsize}
+\end{textblock*}
+
+\begin{textblock*}{11.2cm}(-1.3cm,5.9cm) % {block width} (coords)
+\begin{equation*}
+\mathbf{z}^{[1]} =\mathbf{w}^{[1]}\cdot\mathbf{x}+b^{[1]}
+\end{equation*}
+ \end{textblock*}
+ 
+\begin{textblock*}{11.2cm}(1.8cm,6.2cm) % {block width} (coords)
+\[ 
+\left. \begin{array}{r} 
+z_1^{[1]}=\mathbf{w}_1^{[1]}\mathbf{x}+b_1^{[1]} \Rightarrow a_1^{[1]}=\varphi(z_1^{[1]})\\[1ex]
+z_2^{[1]}=\mathbf{w}_2^{[1]}\mathbf{x}+b_2^{[1]} \Rightarrow a_2^{[1]}=\varphi(z_2^{[1]})\\[1ex]
+z_3^{[1]}=\mathbf{w}_3^{[1]}\mathbf{x}+b_3^{[1]} \Rightarrow a_3^{[1]}=\varphi(z_3^{[1]})\\[1ex]
+z_4^{[1]}=\mathbf{w}_4^{[1]}\mathbf{x}+b_4^{[1]} \Rightarrow a_4^{[1]}=\varphi(z_4^{[1]})
+\end{array} \right\} 
+\;\;z^{[2]}=\mathbf{w}^{[2]}\mathbf{a}^{[1]}+b^{[2]}
+\]
+ \end{textblock*}
+
+\begin{textblock*}{9.2cm}(8.95cm,8.35cm) % {block width} (coords)
+$\Rightarrow y = a^{[2]}=\varphi(z^{[2]})$
+\end{textblock*}
+
+
+ 
+}
+
+
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+
+	\frametitle{Feed-Forward Networks - Mathematical Notation}
+
+\vspace{-0.2cm}  
+
+\begin{footnotesize}
+now we \textbf{generalize} this: vectorized forward propagation for $m$ training examples for the same neural network\\
+ \end{footnotesize}
+
+\begin{textblock*}{5.2cm}(2.2cm,2.7cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/forwardpropagation_1.pdf}
+\end{textblock*}
+
+\begin{textblock*}{8.2cm}(6.5cm,4.2cm) % {block width} (coords)
+\begin{scriptsize}
+superscript bracket denotes the $i$-th layer\\
+subscript denotes the $j$-th node in a layer\\
+superscript round bracket denotes the $k$-th \\training example\\
+\end{scriptsize}
+\end{textblock*}
+
+
+\begin{textblock*}{11.2cm}(1.2cm,5.3cm) % {block width} (coords)
+\begin{footnotesize}
+\begin{align*}
+\mathbf{z}^{[1]} &=\mathbf{w}^{[1]}\cdot\mathbf{x}+b^{[1]} = \left[
+   \begin{array}{c}
+     \mathbf{w}_1^{[1]} \\[-1ex]
+    \!\!\vdots\\[-1ex]
+     \mathbf{w}_4^{[1]} 
+   \end{array}
+\right]
+\left[
+   \begin{array}{cccc}
+     x_1^{(1)} & x_1^{(2)} & \cdots & x_1^{(m)} \\[-1ex]
+     \!\!\!\vdots & \!\!\!\vdots & \ddots & \\[-1ex]    
+     x_3^{(1)} & x_3^{(2)} & \cdots & x_3^{(m)} 
+   \end{array}
+\right]
++
+\left[
+   \begin{array}{c}
+     b_1^{[1]}\\[-1ex]
+     \!\!\vdots\\[-1ex]
+     b_4^{[1]} 
+   \end{array}
+\right]\\
+&=
+\left[
+   \begin{array}{cccc}
+     \mathbf{w}_1^{[1]}\mathbf{x}^{(1)}+b_1^{[1]} & \mathbf{w}_1^{[1]}\mathbf{x}^{(2)}+b_1^{[1]} & \cdots & \mathbf{w}_1^{[1]}\mathbf{x}^{(m)}+b_1^{[1]} \\
+    \vdots & \vdots & \ddots & \vdots \\
+     \mathbf{w}_4^{[1]}\mathbf{x}^{(1)}+b_4^{[1]} & \cdots & \cdots &\mathbf{w}_4^{[1]}\mathbf{x}^{(m)}+b_4^{[1]}
+   \end{array}
+\right]\\[3ex]
+\mathbf{a}^{[1]}&=\varphi(\mathbf{z}^{[1]})
+\end{align*}
+\end{footnotesize}
+\end{textblock*}
+
+
+
+\begin{textblock*}{0.14cm}(10.8cm,7.05cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/curlybracket_vertical.pdf}
+\end{textblock*}
+
+
+\begin{textblock*}{7.7cm}(2.73cm,8.65cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/curlybracket_horizontal.pdf}
+\end{textblock*}
+
+
+\begin{textblock*}{7.9cm}(11.1cm,7.6cm) % {block width} (coords)
+\begin{scriptsize}
+4 nodes\\ in layer 1\\
+\end{scriptsize}
+\end{textblock*}
+
+
+
+\begin{textblock*}{7.9cm}(6.0cm,8.9cm) % {block width} (coords)
+\begin{scriptsize}
+$m$ training examples
+\end{scriptsize}
+\end{textblock*}
+
+}
+
+
+
+
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+
+	\frametitle{Feed-Forward Networks - Mathematical Notation}
+
+\vspace{-0.2cm}  
+
+\begin{footnotesize}
+now we \textbf{generalize} this: vectorized forward propagation for $m$ training examples for the same neural network\\
+ \end{footnotesize}
+
+\begin{textblock*}{5.2cm}(2.2cm,2.7cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/forwardpropagation_1.pdf}
+\end{textblock*}
+
+\begin{textblock*}{8.2cm}(6.5cm,4.2cm) % {block width} (coords)
+\begin{scriptsize}
+superscript bracket denotes the $i$-th layer\\
+subscript denotes the $j$-th node in a layer\\
+superscript round bracket denotes the $k$-th \\training example\\
+\end{scriptsize}
+\end{textblock*}
+
+\begin{textblock*}{11.2cm}(0.4cm,6.3cm) % {block width} (coords)
+\begin{footnotesize}
+\begin{align*}   
+\mathbf{z}^{[2]} &= \mathbf{w}^{[2]}
+\left[
+   \begin{array}{rrrr}
+     \mathbf{a}^{[1](1)} & \mathbf{a}^{[1](2)} & \cdots & \mathbf{a}^{[1](m)} 
+   \end{array}
+\right]
++    b^{[2]} \\
+&=
+\left[
+   \begin{array}{ccc}
+     \mathbf{w}^{[2]}\mathbf{a}^{[1](1)}+b_1^{[2]} & \cdots & \mathbf{w}^{[2]}\mathbf{a}^{[1](m)}+b^{[2]}
+   \end{array}
+\right]\\[1em]
+\mathbf{a}^{[2]}&=\varphi(\mathbf{z}^{[2]})
+\end{align*}
+\end{footnotesize}
+\end{textblock*}
+}
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+
+	\frametitle{Feed-Forward Networks - Mathematical Notation}
+
+\textbf{thought:}\\
+Every layer computes a linear regression \textbf{if} activation functions $\varphi$ are absent. \\
+
+\vspace{0.1cm}
+
+Could this be simplified?
+
+}
+
+\addtocounter{framenumber}{-1}
+
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+
+	\frametitle{Feed-Forward Networks - Mathematical Notation}
+
+\textbf{thought:}\\
+Every layer computes a linear regression \textbf{if} activation functions $\varphi$ are absent. \\
+
+\vspace{0.1cm}
+
+Could this be simplified?
+
+
+\begin{textblock*}{11.2cm}(0.4cm,4.0cm) % {block width} (coords)
+\begin{footnotesize}
+\begin{align*}   
+a^{[1]}=z^{[1]} &= \mathbf{w}^{[1]}\mathbf{x}b^{[1]}\\
+a^{[2]}=z^{[2]} &= \mathbf{w}^{[2]}a^{[1]}b^{[2]}\\
+&=\mathbf{w}^{[2]}(\mathbf{w}^{[1]}\mathbf{x}+b^{[1]})+b^{[2]}\\
+&=\mathbf{w}^{[2]}\mathbf{w}^{[1]}\mathbf{x}+(\mathbf{w}^{[2]}b^{[1]})+b^{[2]})\\
+&=\mathbf{w}\mathbf{x}b
+\end{align*}
+\end{footnotesize}
+\end{textblock*}
+
+
+}
+
+
+\addtocounter{framenumber}{-1}
+
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+
+	\frametitle{Feed-Forward Networks - Mathematical Notation}
+
+\textbf{thought:}\\
+Every layer computes a linear regression \textbf{if} activation functions $\varphi$ are absent. \\
+
+\vspace{0.1cm}
+
+Could this be simplified?
+
+
+\begin{textblock*}{11.2cm}(0.4cm,4.0cm) % {block width} (coords)
+\begin{footnotesize}
+\begin{align*}   
+a^{[1]}=z^{[1]} &= \mathbf{w}^{[1]}\mathbf{x}b^{[1]}\\
+a^{[2]}=z^{[2]} &= \mathbf{w}^{[2]}a^{[1]}b^{[2]}\\
+&=\mathbf{w}^{[2]}(\mathbf{w}^{[1]}\mathbf{x}+b^{[1]})+b^{[2]}\\
+&=\mathbf{w}^{[2]}\mathbf{w}^{[1]}\mathbf{x}+(\mathbf{w}^{[2]}b^{[1]})+b^{[2]})\\
+&=\mathbf{w}\mathbf{x}b
+\end{align*}
+\end{footnotesize}
+\end{textblock*}
+
+\begin{textblock*}{1.8cm}(4.2cm,3.7cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/bigflash.pdf}
+\end{textblock*}
+
+\vspace{3.6cm}
+
+\begin{footnotesize}
+
+From the above mathematical justification, it turns out that every layer would have been computing a linear regression graph, which is essentially meaningless for the Perceptron to add more hidden layers for introducing greater non-linearity to its computation. Hence, the activation functions are critical for deep learning architecture.
+
+\end{footnotesize} 
+ 
+}
+
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+		
+		
+		\frametitle{Fully Connected Networks}
+
+\begin{textblock*}{9.2cm}(2.8cm,2.9cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/neural_network_hiddenlayers_feedforward_2.pdf}
+\end{textblock*}
+
+Most neural networks are fully connected: each hidden unit and each output unit is connected to every unit in the layers either side. 
+}
+
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Training Neural Networks}
+	
+As we start to think about more practical use cases for neural networks, like image recognition or classification, we'll leverage supervised learning, or labeled datasets, to train the algorithm (to adjust the weights). 
+
+}
+
+
+
+\section[Back-\\propagation]{Back-\\propagation}
+
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Learning}
+	
+Learning (or training) is the \textbf{adaptation of the neural network} to better handle a task \textbf{by considering a training set with known results} $\hat{y}$. 
+
+\pause
+
+\vspace{0.2cm}
+
+Learning involves adjusting the weights (and optional thresholds) of the network to improve the accuracy of the result $y$. This is done by minimizing the observed errors (as results are known for the training set). Learning is complete when examining additional observations (enhancing the training set) or further iterations are not reducing the error rate. 
+
+
+\vspace{0.2cm}
+
+Even after learning, the error rate typically does not reach 0. \\
+
+}
+
+
+
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Learning}
+
+	
+	How to set the weights $\mathbf{w}$ (and bias $\mathbf{b}$)?
+	
+	\pause
+
+
+\vspace{0.2cm}
+
+We've seen:
+
+Weights are numeric values which are multiplied with inputs. 
+
+\pause
+
+\vspace{0.2cm}
+
+In \textbf{backpropagation}, they are modified to reduce a loss function:
+
+\pause
+
+\vspace{0.2cm}
+
+Training starts with all of its weights (and thresholds) initialized with random values. Training data is processed by the neural network. During training, the weights and thresholds are continually adjusted to \textbf{reduce a loss function} (a function of the difference between expected outputs $\hat{y}$ vs. training outputs $y$) until training data with the same labels consistently yield \textbf{similar and correct outputs} $y \sim \hat{y}$ so it \textbf{converges}.\\
+
+
+\vspace{0.2cm}
+
+
+\pause
+
+
+ Once the neural network is applied to new data, weights are machine-learnt values.
+ 
+
+
+	
+	}
+	
+	
+	
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Backpropagation}
+	
+	The general \textbf{implementation} of the backpropagation algorithm is as follows:
+	
+	    \vspace{0.5cm}
+	    
+	    
+	0. The interconnections are assigned weights $\mathbf{w}$ at random.
+	
+    \vspace{0.25cm}
+    
+   Iteratively:
+    
+   
+\begin{textblock*}{9.7cm}(2.5cm,4.75cm) % {block width} (coords)
+
+	
+1. Perform a \textbf{forward pass} (also called \textit{inference}) through the neural network using $\mathbf{w}$ from previous step to obtain output $\mathbf{y}=f(\mathbf{x},\mathbf{w})$.
+	
+	
+	\vspace{0.25cm}
+	
+	2. Calculate new weights from loss function $E$
+	
+		\vspace{-0.4cm}
+		
+	\begin{equation*}
+	\mathbf{w}^* = \argminA_w \sum_{n=1}^N E({\mathbf{y}}^{(n)},\mathbf{\hat{y}}^{(n)})
+	\end{equation*}
+	
+	where ${\mathbf{y}}=f(\mathbf{x},\mathbf{w})$ is the output of a neural network with input vector $\mathbf{x}$, weight vector $\mathbf{w}$, and $\mathbf{\hat{y}}$ is the vector of expected outputs
+	
+	and the loss function $E$ (also: cost function) is e.g. the squared loss
+	\begin{equation*}
+	\sum_k \frac{1}{2}(\hat{\mathbf{y}}_k^{(n)}-y_k^{(n)})^2
+	\end{equation*}
+	
+	
+		\vspace{-0.2cm}
+		
+	with \textbf{backward pass} (also called \textit{backpropagation}) and update weights.
+	 
+\end{textblock*}
+	}
+	
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Backpropagation - Training the Perceptron}
+	
+	\begin{footnotesize}
+	
+
+We're first looking at an \textbf{individual Perceptron} $j$.
+
+
+\vspace{0.3cm}
+
+\textbf{1. Initialize the weights and calculate the output}
+\begin{itemize}
+\item weights are initialized with random values
+\item a forward pass is executed, result $y_j$
+\end{itemize}
+
+
+
+\vspace{0.3cm}
+
+\textbf{2. Calculating the Error}
+
+The loss function has to be dependent on the weights and it needs to relate actual output $y_j$ of a perceptron $j$ to desired output $\hat{y}_j$. We define the error as:
+\begin{equation*}
+e_j = \hat{y}_j - y_j
+\end{equation*}
+
+\vspace{0.1cm}
+
+This function $e_j$ does relate $\hat{y}_j$ to $y_j$ and is in fact dependent on the weights because we know the $y_j$ term itself is dependent on the weights. As we want to minimize $e_j$, we square it to make sure $e_j$ is always positive, which gives us the \textbf{loss function}:
+
+\begin{equation*}
+E_j = \frac{1}{2}e_j^2 = \frac{1}{2}(\hat{y}_j-y_j)^2
+\end{equation*}
+
+	\end{footnotesize}
+}
+
+
+
+
+
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Training Neural Networks}
+		
+
+training neural networks is a \textbf{non-convex optimization problem}
+
+this means we can run into many local minima during training
+
+
+
+\begin{textblock*}{8.2cm}(2.8cm,3.9cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/localminima.pdf}
+\end{textblock*}
+
+
+
+}
+
+
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Backpropagation - Training the Perceptron}
+	
+
+	\begin{footnotesize}
+\textbf{3. Gradient Descent - Updating the Weights to Reduce Error (I)}\\
+
+\vspace{0.25cm}
+
+Now that we have a loss function $E_j = \frac{1}{2}e_j^2 = \frac{1}{2}(\hat{y}_j-y_j)^2$, we can use it to determine how to update $w_{ij}$ to reduce the error.\\
+
+	\end{footnotesize}
+}
+
+\addtocounter{framenumber}{-1}
+
+
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Backpropagation - Training the Perceptron}
+	
+
+	\begin{footnotesize}
+\textbf{3. Gradient Descent - Updating the Weights to Reduce Error (I)}\\
+
+\vspace{0.25cm}
+
+Now that we have a loss function $E_j = \frac{1}{2}e_j^2 = \frac{1}{2}(\hat{y}_j-y_j)^2$, we can use it to determine how to update $w_{ij}$ to reduce the error.\\
+
+\begin{textblock*}{4.0cm}(8.2cm,5.1cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/gradientdescent_graph.pdf}
+\end{textblock*}
+
+
+\vspace{0.2cm}
+
+The equation 
+\begin{equation*}
+w_{ij(k+1)} = w_{ij(k)}-\eta \frac{ \partial E_j  }{\partial w_{ij}}
+\end{equation*}
+
+is an expression for finding an updated weight $w_{ij(k+1)}$ of perceptron $j$ using\\
+
+\vspace{0.2cm}
+
+\begin{itemize}
+\item the current weight $w_{ij(k)}$
+\item a step size (\textbf{learning rate}) $\eta$
+\item the derivative of the loss function $E_j$\newline with respect to $w_{ij}$, $\frac{\partial E_j}{\partial w_{ij}}$
+\end{itemize}
+
+\vspace{0.5cm}
+
+This is the equation of \textbf{gradient descent}, an iterative method of finding the minimum of a function.
+
+	\end{footnotesize}
+}
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Backpropagation - Training the Perceptron}
+	
+
+	\begin{footnotesize}
+\textbf{3. Gradient Descent - Updating the Weights to Reduce Error (II)}\\
+
+\vspace{0.25cm}
+
+Given an initial starting point $w_{ij(k)}$ we want to move in a \textbf{direction of steepest descent} (derivative of the loss function scaled by some amount $\eta$)
+to arrive at some new point $w_{ij(k+1)}$ which corresponds to the point $w_{ij(k)}$ either reduced or increased by the quantity $\eta \frac{\partial E_j}{\partial w_{ij}}$.\\
+
+\vspace{0.25cm}
+
+\pause
+
+Why the Partial Derivative?\\
+
+	\end{footnotesize}
+
+}
+
+
+\addtocounter{framenumber}{-1}
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Backpropagation - Training the Perceptron}
+	
+
+	\begin{footnotesize}
+\textbf{3. Gradient Descent - Updating the Weights to Reduce Error (II)}\\
+
+\vspace{0.25cm}
+
+Given an initial starting point $w_{ij(k)}$ we want to move in a \textbf{direction of steepest descent} (derivative of the loss function scaled by some amount $\eta$)
+to arrive at some new point $w_{ij(k+1)}$ which corresponds to the point $w_{ij(k)}$ either reduced or increased by the quantity $\eta \frac{\partial E_j}{\partial w_{ij}}$.\\
+
+
+\vspace{0.25cm}
+
+
+Why the Partial Derivative?\\
+
+\begin{textblock*}{3.0cm}(2.2cm,5.2cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/gradientdescent_graph.pdf}
+\end{textblock*}
+
+\begin{textblock*}{3.0cm}(5.2cm,5.2cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/curved_arrow.pdf}
+\end{textblock*}
+
+\begin{textblock*}{4.20cm}(8.1cm,4.6cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/partial_derivative_as_slope.png}
+\end{textblock*}
+
+
+\begin{textblock*}{3.0cm}(10.2cm,4.8cm) % {block width} (coords)
+\begin{scriptsize}
+$n=2$ weights
+\end{scriptsize}
+\end{textblock*}
+
+
+\vspace{2.76cm}
+
+graph of the error as a function of a \textbf{single} weight
+
+more realistic cases: multiple weights\\
+
+generally: for $n$ weights the loss function is a $n$-dimensional hypersurface in the $n+1$ dimensional space and its derivative is a $n$-dimensional gradient vector\\
+
+	\end{footnotesize}
+}
+
+
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Backpropagation - Training the Perceptron}
+	
+
+	\begin{footnotesize}
+\textbf{3. Gradient Descent - Updating the Weights to Reduce Error (II)}\\
+
+\vspace{0.25cm}
+
+    Gradient Descent - given an initial starting point $w_{ij(k)}$ we want to move in a direction of steepest descent which can be calculated by the derivative of the loss function scaled by some amount $\eta$ - thus arriving to some new point $w_{ij(k+1)}$ which corresponds to the point $w_{ij(k)}$ either reduced or increased by some amount that is equivalent to the quantity $\eta \frac{\partial E_j}{\partial w_{ij}}$.\\
+    
+    \vspace{0.1cm}
+
+We continue with an \textbf{expression for an updated weight} $w_{ij(k+1)}$:\\
+$w_{ij(k+1)} = w_{ij(k)} -\eta \frac{\partial E_j}{\partial w_{ij}}$
+
+\pause
+
+From this we can derive the quantity $\Delta w_{ij}$ by which we need to change the current weight during the next iteration in order to further reduce $E_j$:
+\begin{align*}
+\Delta w_{ij} &=w_{ij(k+1)} - w_{ij(k)} \\
+&= -\eta \frac{\partial E_j}{\partial w_{ij}} 
+\end{align*}
+
+$\Delta w_{ij}$ is the change in the current weight that defines the step size and direction to move from the current weight to the updated weight.
+
+This is an application of the gradient descent in the context of the perceptron to modify the weights to reduce the value of the loss function.
+
+\end{footnotesize}
+}
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Backpropagation - Training the Perceptron}
+	
+
+	\begin{footnotesize}
+\textbf{3. Gradient Descent - Updating the Weights to Reduce Error (III)}\\
+
+
+\vspace{0.25cm}
+
+To calculate this derivative we have to acknowledge that the loss function $E_j$ is a composite function:\\
+
+\vspace{0.5cm}
+
+$E_j = \frac{1}{2}e_j^2$ $\Rightarrow E_j$ is a function of $e_j$\\
+\vspace{0.1cm}
+$e_j = (\hat{y}_j-y_j)^2$ $\Rightarrow e_j$ is a function of $y_j$\\
+\vspace{0.1cm}
+$y_j = \frac{1}{\varphi(A_j)}$ $\Rightarrow y_j$ is a function of $A_j$\\
+\vspace{0.1cm}
+$A_j = \sum\limits_{i=1}^n w_{ij} x_i+b$ $\Rightarrow A_j$ is a function of $w_{ij}$\\
+
+
+\end{footnotesize}
+
+}
+
+\addtocounter{framenumber}{-1}
+
+
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Backpropagation - Training the Perceptron}
+	
+
+	\begin{footnotesize}
+\textbf{3. Gradient Descent - Updating the Weights to Reduce Error (III)}\\
+
+
+\vspace{0.25cm}
+
+To calculate this derivative we have to acknowledge that the loss function $E_j$ is a composite function:\\
+
+\vspace{0.5cm}
+
+$E_j = \frac{1}{2}e_j^2$ $\Rightarrow E_j$ is a function of $e_j$\\
+\vspace{0.1cm}
+$e_j = (\hat{y}_j-y_j)^2$ $\Rightarrow e_j$ is a function of $y_j$\\
+\vspace{0.1cm}
+$y_j = \frac{1}{1+\exp(-A_j)}$ $\Rightarrow y_j$ is a function of $A_j$\\
+\vspace{0.1cm}
+$A_j = \sum\limits_{i=1}^n w_{ij} x_i+b$ $\Rightarrow A_j$ is a function of $w_{ij}$\\
+
+\begin{textblock*}{0.2cm}(7.9cm,3.9cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0 0 0 0},clip]{images/curlybracket_vertical.pdf}
+\end{textblock*}
+
+\begin{textblock*}{10.14cm}(8.40cm,4.2cm) % {block width} (coords)
+$\Rightarrow$ use the chain rule:
+\end{textblock*}
+
+\begin{textblock*}{10.14cm}(5.25cm,5.0cm) % {block width} (coords)
+\begin{equation*}
+\frac{\partial E_j}{\partial w_{ij}} \! = \! \frac{\partial E_j}{\partial e_{j}} \! \times \! \frac{\partial e_j}{\partial y_{j}} \! \times \! \frac{\partial y_j}{\partial A_{j}} \! \times \! \frac{\partial A_j}{\partial w_{ij}}
+\end{equation*}
+\end{textblock*}
+
+\vspace{0.65cm}
+
+After computing each of the four partial derivative terms, we can plug them back into the chain rule equation for the derivative of $E_j$ and get the following expression for calculating the gradient vector of the loss function:
+\begin{equation*}
+\frac{\partial E_j}{\partial w_{ij}} = -e_j(1-y_j)y_jx_i
+\end{equation*}
+
+\end{footnotesize}
+	
+}
+
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Backpropagation - Training the Perceptron}
+	
+
+	\begin{footnotesize}
+\textbf{3. Gradient Descent - Updating the Weights to Reduce Error (IV)}\\
+
+
+\vspace{0.25cm}
+
+From the derivative we can derive the perceptron $\delta$ function which quantifies the change that needs to be added to or subtracted from the current weight in order to arrive at the updated weight that further reduces the error.
+
+Let $-e_j[1-y_j]y_j = \delta _j$, then 
+\begin{equation*}
+\frac{\partial E_j}{\partial w_{ij}} = \delta_j x_i
+\end{equation*}
+
+With plugging this back into the expression for $\Delta w_{ij}$ we get the \textbf{Perceptron $\delta$ Function}:
+\begin{equation*}
+\Delta w_{ij} = \eta \delta_j x_i
+\end{equation*}
+
+The perceptron $\delta$ function quantifies by how much a current weight $w_{ij(k)}$ needs to be changed in order to obtain the updated weight $w_{ij(k+1)}$ which will contribute to the further reduction of the error.\\
+
+\end{footnotesize}
+	
+}
+
+
+\addtocounter{framenumber}{-1}
+
+
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Backpropagation - Training the Perceptron}
+	
+
+	\begin{footnotesize}
+\textbf{3. Gradient Descent - Updating the Weights to Reduce Error (IV)}\\
+
+
+\vspace{0.25cm}
+
+From the derivative we can derive the perceptron $\delta$ function which quantifies the change that needs to be added to or subtracted from the current weight in order to arrive at the updated weight that further reduces the error.\\
+
+Let $-e_j[1-y_j]y_j = \delta _j$, then 
+\begin{equation*}
+\frac{\partial E_j}{\partial w_{ij}} = \delta_j x_i
+\end{equation*}
+
+With plugging this back into the expression for $\Delta w_{ij}$ we get the \textbf{Perceptron $\delta$ Function}:
+\begin{equation*}
+\Delta w_{ij} = \eta \delta_j x_i
+\end{equation*}
+
+The perceptron $\delta$ function quantifies by how much a current weight $w_{ij(k)}$ needs to be changed in order to obtain the updated weight $w_{ij(k+1)}$ which will contribute to the further reduction of the error.\\
+
+
+\begin{textblock*}{1.1cm}(1.7cm,8.5cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim=0.0cm 0.0cm 0.0cm 0cm, clip=true]{images/arrow_right_white.pdf}    \end{textblock*}
+
+
+\begin{textblock*}{9.1cm}(3.0cm,8.5cm) % {block width} (coords)
+Iteratively repeating this process until the error is minimized is what happens when training the perceptron.
+  \end{textblock*}
+ 
+
+\end{footnotesize}
+	
+}
+
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Backpropagation - Training the Perceptron}
+	
+	\begin{footnotesize}
+\textbf{Why Gradient Descent?}\\
+
+
+
+\vspace{0.25cm}
+
+Why not simply minimize the loss function by solving the problem analytically (setting its derivative to zero)?\\
+
+\vspace{0.25cm}
+
+\end{footnotesize}
+
+}
+
+
+\addtocounter{framenumber}{-1}
+
+
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Backpropagation - Training the Perceptron}
+	
+	\begin{footnotesize}
+\textbf{Why Gradient Descent?}\\
+
+
+
+\vspace{0.25cm}
+
+Why not simply minimize the loss function by solving the problem analytically (setting its derivative to zero)?\\
+
+\vspace{0.25cm}
+
+With increasing number of weights, the error function quickly becomes very complex: Each additional weight adds another dimension to this graph. In addition, we might want to minimize the error function not only for a single input data but for an entire training data set.
+
+Such functions typically:
+
+\begin{itemize}
+\item have many minima
+\item are too complex to be expressed mathematically in a neat equation
+\item so complex that calculating the derivative of such complex functions may not even be feasible with a neat mathematical equation
+\end{itemize}
+	\end{footnotesize}
+}
+	
+	
+	
+	
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Backpropagation - Training the Perceptron}
+	
+	\begin{footnotesize}
+\textbf{Why Gradient Descent?}\\
+
+
+
+\vspace{0.25cm}
+
+Why not simply minimize the loss function by solving the problem analytically (setting its derivative to zero)?\\
+
+\vspace{0.25cm}
+
+With increasing number of weights, the error function quickly becomes very complex: Each additional weight adds another dimension to this graph. In addition, we might want to minimize the error function not only for a single input data but for an entire training data set.
+
+Such functions typically:
+
+\begin{itemize}
+\item have many minima
+\item are too complex to be expressed mathematically in a neat equation
+\item so complex that calculating the derivative of such complex functions may not even be feasible with a neat mathematical equation
+\end{itemize}
+
+\begin{textblock*}{1.1cm}(1.7cm,8cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim=0.0cm 0.0cm 0.0cm 0cm, clip=true]{images/arrow_right_white.pdf}    \end{textblock*}
+
+\begin{textblock*}{9.1cm}(3.0cm,8cm) % {block width} (coords)
+ finding the arguments (the optimal weights) that correspond to the global minima is not realistic\\
+ 
+ \vspace{0.1cm}
+ 
+ instead: use an iterative optimizer, such as Gradient Descent \end{textblock*}
+ 
+	\end{footnotesize}
+}
+
+
+
+
+
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Backpropagation - Training the Perceptron}
+
+   \vspace{-0.2cm}
+\begin{footnotesize}
+
+summary so far:   
+   
+   
+   \vspace{0.25cm}
+   
+    Training a perceptron with backpropagation is an \textbf{optimization problem} which involves iteratively updating the weights to minimize a loss function.
+
+   \vspace{0.25cm}
+   
+   \end{footnotesize}
+   
+   }
+   
+   
+\addtocounter{framenumber}{-1}
+
+
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Backpropagation - Training the Perceptron}
+
+   \vspace{-0.2cm}
+\begin{footnotesize}
+
+summary so far:   
+   
+   
+   \vspace{0.25cm}
+   
+    Training a perceptron with backpropagation is an \textbf{optimization problem} which involves iteratively updating the weights to minimize a loss function.
+
+   \vspace{0.25cm}
+
+
+\textbf{Key Idea of Learning in Neural Networks:}
+
+   \vspace{0.2cm}
+
+
+find new weights using a loss function $E$ and the previous output, $\mathbf{y}$:
+
+\vspace{-0.3cm}
+
+	\begin{equation*}
+	\mathbf{w}^* = \argminA_w \sum_{n=1}^N E({\mathbf{y}}^{(n)},\mathbf{\hat{y}}^{(n)})
+	\end{equation*}
+	
+   \vspace{0.2cm}
+
+	
+define a loss function $E$, e.g. the squared loss:
+	\begin{equation*}
+	\sum_k \frac{1}{2}(\hat{\mathbf{y}}_k^{(n)}-y_k^{(n)})^2
+	\end{equation*}
+
+   \vspace{0.2cm}
+
+	
+minimize the loss function by using the gradient descent:
+\begin{equation*}
+w_{ij(k+1)} = w_{ij(k)}-\eta \frac{ \partial E_j  }{\partial w_{ij}}
+\end{equation*}
+
+This is carried out iteratively until additional observations (enhancing the training set) or further iterations are not reducing the error rate. 
+ 
+\end{footnotesize}
+}
+
+
+
+
+\section[Activation Functions]{Activation Functions}
+
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+       % \value{tocdepth}
+       \frametitle{Activation Functions}
+       
+\begin{footnotesize}
+
+\textbf{Activation functions} play a key role in neural networks, so it is \textbf{essential} to understand the advantages and disadvantages of different choices to achieve better performance.
+
+\vspace{0.3cm}
+The \textbf{purpose} of an activation function is to add \textbf{non-linearity} to the neural network.\\
+
+\end{footnotesize}
+
+
+}
+
+\addtocounter{framenumber}{-1}
+
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+       % \value{tocdepth}
+       \frametitle{Activation Functions}
+       
+\begin{footnotesize}
+
+\textbf{Activation functions} play a key role in neural networks, so it is \textbf{essential} to understand the advantages and disadvantages of different choices to achieve better performance.
+
+\vspace{0.3cm}
+The \textbf{purpose} of an activation function is to add \textbf{non-linearity} to the neural network.
+
+
+
+\begin{textblock*}{1.0cm}(1.9cm,4.95cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim=0.0cm 0.0cm 0.0cm 0cm, clip=true]{images/questionmark.pdf}    \end{textblock*}
+
+\begin{textblock*}{9.1cm}(3.0cm,5.40cm) % {block width} (coords)
+What would happen to a neural network without activation functions?
+ \end{textblock*}
+
+
+\vspace{3cm}
+
+\pause
+
+In that case, every neuron will only be performing a linear transformation on the inputs using the weights and biases. No matter how many hidden layers we add to the neural network; all layers will behave in the same way because the composition of two linear functions is a linear function itself.
+
+
+\end{footnotesize}
+}
+
+\addtocounter{framenumber}{-1}
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+       % \value{tocdepth}
+       \frametitle{Activation Functions}
+       
+\begin{footnotesize}
+
+\textbf{Activation functions} play a key role in neural networks, so it is \textbf{essential} to understand the advantages and disadvantages of different choices to achieve better performance.
+
+\vspace{0.3cm}
+The \textbf{purpose} of an activation function is to add \textbf{non-linearity} to the neural network.
+
+
+
+\begin{textblock*}{1.0cm}(1.9cm,4.95cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim=0.0cm 0.0cm 0.0cm 0cm, clip=true]{images/questionmark.pdf}    \end{textblock*}
+
+\begin{textblock*}{9.1cm}(3.0cm,5.40cm) % {block width} (coords)
+What would happen to a neural network without activation functions?
+ \end{textblock*}
+
+
+\begin{textblock*}{1.0cm}(1.7cm,6.95cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim=0.0cm 0.0cm 0.0cm 0cm, clip=true]{images/arrow_right_white.pdf}    \end{textblock*}
+
+\begin{textblock*}{9.1cm}(3.0cm,7.2cm) % {block width} (coords)
+Despite the seemingly complexity, learning any complex task is impossible, and our model would be just a linear regression model.
+
+  \end{textblock*}
+
+
+
+\end{footnotesize}
+}
+
+
+
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+        % \value{tocdepth}
+        \frametitle{Activation Functions}
+        
+\vspace{-0.1cm}        
+        
+        \textbf{Binary Step Function}
+
+\begin{footnotesize}
+
+The binary step function depends on a threshold value that decides whether a neuron should be activated or not. 
+If the input to the activation function is greater than the threshold, the neuron is activated, else it is deactivated, meaning that its output is not passed on to the next layer.\\
+
+       \begin{textblock*}{4.0cm}(2.7cm,4.15cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0cm 0cm 0 0cm},clip=True]{images/binarystepfunction_graph.pdf}
+\end{textblock*}
+
+\begin{textblock*}{4.0cm}(6.7cm,4.10cm) % {block width} (coords)
+\begin{equation*}
+  \varphi(z)=\begin{cases}
+    0, & \text{if $z<0$}.\\
+    1, & \text{if $z\geq 0$}.
+  \end{cases}
+\end{equation*}
+ \end{textblock*}
+
+\vspace{3cm}
+
+limitations:
+\begin{itemize}
+\item It cannot provide multi-value outputs, for example, it cannot be used for multi-class classification problems. 
+\item The gradient of the step function is zero, which causes a hindrance in the backpropagation process.
+\end{itemize}
+       
+    
+\end{footnotesize}
+
+
+}
+
+
+
+
+
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+        % \value{tocdepth}
+        \frametitle{Activation Functions}
+        
+\vspace{-0.1cm}        
+        
+        \textbf{Linear Activation Function}
+
+\begin{footnotesize}
+
+The linear activation function, also known as \textit{no activation} or \textit{identity function}, is where the activation is proportional to the input. \\
+
+       \begin{textblock*}{3.0cm}(2.7cm,3.15cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0cm 0cm 0 0cm},clip=True]{images/linearfunction_graph.pdf}
+\end{textblock*}
+
+\begin{textblock*}{4.0cm}(5.7cm,4.10cm) % {block width} (coords)
+\begin{equation*}
+\varphi(z)=z
+\end{equation*}
+ \end{textblock*}
+
+\vspace{3cm}
+
+limitations:
+\begin{itemize}
+\item Backpropagation cannot be applied as the derivative is a constant and thus has no relation to the input.
+\item A linear activation function turns the neural network into just one layer, no matter the actual number of layers in the neural network.
+\end{itemize}
+
+\begin{textblock*}{1.0cm}(1.7cm,8.47cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim=0.0cm 0.0cm 0.0cm 0cm, clip=true]{images/arrow_right_white.pdf}    \end{textblock*}
+
+\begin{textblock*}{9.1cm}(3.0cm,8.8cm) % {block width} (coords)
+\begin{footnotesize}
+use \textbf{non-linear} activation functions
+\end{footnotesize}
+  \end{textblock*}       
+   
+\end{footnotesize}
+
+
+}
+
+
+
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+        % \value{tocdepth}
+        \frametitle{Activation Functions}
+        
+\vspace{-0.1cm}        
+        
+        \textbf{Sigmoid / Logistic Activation Function}
+
+\begin{footnotesize}
+
+Historically popular: interpretation as a neuron's saturating 'firing rate'.
+
+This function takes any real value as input and outputs values in the range of 0 to 1. 
+The more positive the input, the closer the output value will be to 1.0, whereas the more negative, the closer the output will be to 0.
+
+\begin{textblock*}{3.0cm}(2.7cm,4.0cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0cm 0cm 0 0cm},clip=True]{images/sigmoidfunction_graph.pdf}
+\end{textblock*}
+
+\begin{textblock*}{4.0cm}(6.7cm,4.6cm) % {block width} (coords)
+\begin{align*}
+ \varphi(z) &= \frac{1}{1+\exp(-z)}\\
+\varphi'(z) &= \varphi(z)(1-\varphi(z))
+\end{align*}
+ \end{textblock*}
+
+ \begin{textblock*}{4.0cm}(6.8cm,5.6cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0cm 0cm 0 0cm},clip=True]{images/whitetextbox_horizontal.png}
+\end{textblock*}
+
+\vspace{3.1cm}
+
+one of the most widely used activation functions:
+\begin{itemize}
+\item  It is commonly used for models where we have to predict a probability. Since probability of anything exists only between the range of 0 and 1, sigmoid is the right choice because of its range.
+\item The function is differentiable and provides a smooth gradient, i.e., preventing jumps in output values.
+\end{itemize}
+    
+    
+\end{footnotesize}    
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+        % \value{tocdepth}
+        \frametitle{Activation Functions}
+        
+\vspace{-0.1cm}        
+        
+        \textbf{Sigmoid / Logistic Activation Function}
+
+\begin{footnotesize}
+
+Historically popular: interpretation as a neuron's saturating 'firing rate'.
+
+This function takes any real value as input and outputs values in the range of 0 to 1. 
+The more positive the input, the closer the output value will be to 1.0, whereas the more negative, the closer the output will be to 0.
+
+\begin{textblock*}{3.0cm}(2.7cm,4.0cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0cm 0cm 0 0cm},clip=True]{images/sigmoidfunction_graph.pdf}
+\end{textblock*}
+
+\begin{textblock*}{4.0cm}(6.7cm,4.6cm) % {block width} (coords)
+\begin{align*}
+ \varphi(z) &= \frac{1}{1+\exp(-z)}\\
+\varphi'(z) &= \varphi(z)(1-\varphi(z))
+\end{align*}
+ \end{textblock*}
+
+ \begin{textblock*}{5.0cm}(6.5cm,5.7cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0cm 0cm 0 0cm},clip=True]{images/whitetextbox_horizontal.png}
+\end{textblock*}
+
+\vspace{3.1cm}
+
+limitations:
+\begin{itemize}
+\item Sigmoid outputs are not zero-centered, so the output of all the neurons will be of the same sign. This makes the training of the neural network more difficult and unstable.
+\item Saturated neurons 'kill' the gradients
+\end{itemize}
+
+    \end{footnotesize}
+    }
+    
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+        % \value{tocdepth}
+        \frametitle{Activation Functions}
+        
+\vspace{-0.1cm}        
+        
+        \textbf{Sigmoid / Logistic Activation Function}
+
+\begin{footnotesize}
+
+Historically popular: interpretation as a neuron's saturating 'firing rate'.
+
+This function takes any real value as input and outputs values in the range of 0 to 1. 
+The more positive the input, the closer the output value will be to 1.0, whereas the more negative, the closer the output will be to 0.
+
+
+\begin{textblock*}{3.0cm}(2.7cm,4.0cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0cm 0cm 0 0cm},clip=True]{images/sigmoidfunction_derivative.pdf}
+\end{textblock*}
+
+\begin{textblock*}{4.0cm}(6.7cm,4.6cm) % {block width} (coords)
+\begin{align*}
+ \varphi(z) &= \frac{1}{1+\exp(-z)}\\
+\varphi'(z) &= \varphi(z)(1-\varphi(z))
+\end{align*}
+ \end{textblock*}
+
+\vspace{3.1cm}
+
+limitations:
+\begin{itemize}
+\item The derivative: The sigmoid's gradient values are only significant for range ${\sim}[-3,3]$, and the graph gets much flatter in other regions. As the gradient value approaches zero, the network ceases to learn and suffers from the \textbf{Vanishing Gradient Problem}.
+\end{itemize}
+\end{footnotesize}
+        
+
+}
+
+
+
+
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+        % \value{tocdepth}
+        \frametitle{Activation Functions}
+        
+\vspace{-0.1cm}        
+        
+        \textbf{Tanh Function (Hyperbolic Tangent)}
+
+\begin{footnotesize}
+
+The tanh function is very similar to the sigmoid/logistic activation function, but has a  different output range of $[-1,1]$. 
+
+\begin{textblock*}{4.8cm}(2.7cm,3.4cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0cm 0cm 0 0cm},clip=True]{images/tanhfunction_graph.pdf}
+\end{textblock*}
+
+
+\begin{textblock*}{4.0cm}(7.7cm,3.8cm) % {block width} (coords)
+\begin{align*}
+ \varphi(z) &= \frac{\exp(x)-\exp(-x)}{\exp(x)+\exp(-x)}\\
+ \varphi'(z) &= 1-\varphi^2(z)\end{align*}
+ \end{textblock*}
+ 
+ 
+ 
+ \begin{textblock*}{5.0cm}(6.5cm,4.95cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0cm 0cm 0 0cm},clip=True]{images/whitetextbox_horizontal.png}
+\end{textblock*}
+
+\vspace{3.7cm}
+
+advantages:
+\begin{itemize}
+\item The output of the tanh activation function is 0-centered within $[-1,1]$. This centers the data, making learning much easier for the next layer. Usually used in hidden layers.
+\item Other than for the sigmoid activation function no restriction of the gradient movement.
+\end{itemize}
+\end{footnotesize}
+
+}
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+        % \value{tocdepth}
+        \frametitle{Activation Functions}
+        
+\vspace{-0.1cm}        
+        
+        \textbf{Tanh Function (Hyperbolic Tangent)}
+
+\begin{footnotesize}
+
+The tanh function is very similar to the sigmoid/logistic activation function, but has a  different output range of $[-1,1]$. 
+
+\begin{textblock*}{4.8cm}(2.7cm,3.4cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0cm 0cm 0 0cm},clip=True]{images/tanhfunction_derivative.pdf}
+\end{textblock*}
+
+\begin{textblock*}{4.0cm}(7.7cm,3.8cm) % {block width} (coords)
+\begin{align*}
+ \varphi(z) &= \frac{\exp(x)-\exp(-x)}{\exp(x)+\exp(-x)}\\
+ \varphi'(z) &= 1-\varphi^2(z)\end{align*}
+ \end{textblock*}
+
+
+\vspace{3.7cm}
+
+limitations:
+\begin{itemize}
+\item vanishing gradients similar to the sigmoid activation function
+\item In addition, the gradient of the tanh function is much steeper than the gradient of the sigmoid function.
+\end{itemize}
+\end{footnotesize}
+
+}
+
+
+ 
+ 
+ 
+
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+        % \value{tocdepth}
+        \frametitle{Activation Functions}
+        
+\vspace{-0.1cm}        
+        
+        \textbf{ReLU Function}
+
+\begin{footnotesize}
+
+ReLU stands for Rectified Linear Unit. Although it gives an impression of a linear function, ReLU has a derivative function and allows for backpropagation while simultaneously making it computationally efficient. 
+
+\begin{textblock*}{3.8cm}(2.7cm,3.6cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0cm 0cm 0 0cm},clip=True]{images/relufunction_graph.pdf}
+\end{textblock*}
+
+\begin{textblock*}{4.0cm}(7.7cm,4.0cm) % {block width} (coords)
+\begin{align*}
+\varphi(z)& = \mathrm{max}(0,z)\\
+\varphi'(z)&=\begin{cases}
+    1, & \text{if $z \geq 0$}\\
+    0, & \text{otherwise}.
+  \end{cases}
+\end{align*}
+ \end{textblock*}
+
+
+ \begin{textblock*}{6.0cm}(6.5cm,4.95cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0cm 0cm 0 0cm},clip=True]{images/whitetextbox_horizontal.png}
+\end{textblock*}
+
+
+\vspace{3.1cm}
+
+advantages:
+\begin{itemize}
+\item The neurons will be deactivated if the output of the linear part is $<0$, thus not all neurons are active at the same time $\Rightarrow$  far more computationally efficient than sigmoid and tanh.
+\item ReLU activation converges much faster than sigmoid/tanh (${\sim}\times 6$).
+\item ReLU accelerates the convergence of gradient descent towards the loss function's minimum due to its linear, non-saturating property.
+\end{itemize}
+\end{footnotesize}
+    
+    
+    }
+    
+    
+  
+  
+  
+  
+  
+  \frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+        % \value{tocdepth}
+        \frametitle{Activation Functions}
+        
+\vspace{-0.1cm}        
+        
+        \textbf{ReLU Function}
+
+\begin{footnotesize}
+
+ReLU stands for Rectified Linear Unit. Although it gives an impression of a linear function, ReLU has a derivative function and allows for backpropagation while simultaneously making it computationally efficient. 
+
+\begin{textblock*}{3.8cm}(2.7cm,3.6cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0cm 0cm 0 0cm},clip=True]{images/relufunction_derivative.pdf}
+\end{textblock*}
+
+\begin{textblock*}{4.0cm}(7.7cm,4.0cm) % {block width} (coords)
+\begin{align*}
+\varphi(z)& = \mathrm{max}(0,z)\\
+\varphi'(z)&=\begin{cases}
+    1, & \text{if $z \geq 0$}\\
+    0, & \text{otherwise}.
+  \end{cases}
+\end{align*}
+ \end{textblock*}
+
+
+\vspace{3.1cm}
+
+disadvantage: The \textbf{Dying ReLU Problem}
+
+
+\vspace{0.2cm}
+
+The negative side of the graph makes the gradient value zero. Due to this reason, during the backpropagation process, the weights and biases for some neurons are not updated. This can create dead neurons which never get activated. 
+
+All the negative input values become zero immediately, which decreases the model's ability to fit or train from the data properly. 
+    
+   
+
+\end{footnotesize}
+
+}
+
+
+
+  \frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+        % \value{tocdepth}
+        \frametitle{Activation Functions}
+        
+\vspace{-0.1cm}        
+        
+        
+     \textbf{Leaky ReLU Function}
+
+\begin{footnotesize}
+
+Leaky ReLU is an improved version of ReLU function to solve the Dying ReLU problem as it has a small positive slope $\alpha=\mathrm{const}$ (typically $\alpha = 0.01$) in the negative area.\\
+By making this minor modification for negative input values, the gradient of the left side of the graph comes out to be a non-zero value.\\
+
+\begin{textblock*}{3.8cm}(2.7cm,4.6cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0cm 0cm 0 0cm},clip=True]{images/leakyrelufunction_derivative.pdf}
+\end{textblock*}
+
+\begin{textblock*}{4.0cm}(7.7cm,4.9cm) % {block width} (coords)
+\begin{align*}
+\varphi(z)& =  \mathrm{max}(\alpha z,z)\\
+\varphi'(z)&=\begin{cases}
+    1, & \text{if $z \geq 0$}\\
+    \alpha, & \text{otherwise}.
+    \end{cases}
+\end{align*}
+ \end{textblock*}
+
+
+\vspace{3.7cm}
+
+advantages:  \\
+
+The advantages of Leaky ReLU are same as that of ReLU, in addition to the fact that it does enable backpropagation, even for negative input values. 
+
+\end{footnotesize}
+
+}
+
+
+
+
+
+
+  \frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+        % \value{tocdepth}
+        \frametitle{Activation Functions}
+        
+\vspace{-0.1cm}        
+        
+        
+     \textbf{Parametric ReLU Function}
+
+\begin{footnotesize}
+
+
+Parametric ReLU is another variant of ReLU that aims to solve the problem of gradient's becoming zero for the left half of the axis. 
+The function looks like the Leaky ReLU, but the slope $\alpha$ is not longer a constant, but a variable. By performing backpropagation, the most appropriate value of $\alpha$ is learnt.
+
+\begin{textblock*}{3.8cm}(2.7cm,4.6cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0cm 0cm 0 0cm},clip=True]{images/parametricrelufunction_derivative.pdf}
+\end{textblock*}
+
+\begin{textblock*}{4.0cm}(7.7cm,4.9cm) % {block width} (coords)
+\begin{align*}
+\varphi(z)& =  \mathrm{max}(\alpha z,z)\\
+\varphi'(z)&=\begin{cases}
+    1, & \text{if $z \geq 0$}\\
+    \alpha, & \text{otherwise}.
+    \end{cases}
+\end{align*}
+ \end{textblock*}
+
+
+\vspace{3.7cm}
+
+advantage:  \\
+The parametric ReLU function is used when the leaky ReLU function still fails at solving the problem of dead neurons, and the relevant information is not successfully passed to the next layer. 
+
+\vspace{0.2cm}
+
+limitation:\\
+This function's limitation is that it may perform differently for different problems depending upon the value of slope parameter $\alpha$.
+
+
+\end{footnotesize}
+
+}
+ 
+ 
+ 
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+        % \value{tocdepth}
+        \frametitle{Activation Functions}
+        
+\vspace{-0.1cm}        
+        
+        
+     \textbf{Exponential Linear Units (ELUs) Function}
+
+\begin{footnotesize}
+
+Exponential Linear Unit, or ELU for short, is also a variant of ReLU that modifies the slope of the negative part of the function. 
+ELU uses a log curve to define the negativ values unlike the leaky ReLU and Parametric ReLU functions with a straight line.
+
+\begin{textblock*}{4.0cm}(2.4cm,4.0cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0cm 0cm 0 0cm},clip=True]{images/elufunction_derivative.pdf}
+\end{textblock*}
+
+\begin{textblock*}{4.0cm}(7.5cm,4.0cm) % {block width} (coords)
+\begin{align*}
+\varphi(z)&=\begin{cases}
+    z, & \text{if $z \geq 0$}\\
+    \alpha(e^z-1), & \text{otherwise}.
+    \end{cases}
+   \end{align*}
+   \begin{align*}
+    \varphi'(z)&=\begin{cases}
+    1, & \text{if $z \geq 0$}\\
+    \alpha e^z, & \text{otherwise}.
+    \end{cases}
+\end{align*}
+ \end{textblock*}
+
+
+\vspace{3.3cm}
+
+advantages:  \\
+\begin{itemize}
+\item ELU becomes smooth slowly until its output equal to $-\alpha$ whereas RELU sharply smoothes.
+\item Avoids dead ReLU problem by introducing log curve for negative input values. It helps the network nudge weights and biases in the right direction.
+\end{itemize}
+$\Rightarrow$ strong alternative for ReLU
+
+
+\end{footnotesize}
+
+}
+
+
+ 
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+        % \value{tocdepth}
+        \frametitle{Activation Functions}
+        
+\vspace{-0.1cm}        
+        
+        
+     \textbf{Exponential Linear Units (ELUs) Function}
+
+\begin{footnotesize}
+
+Exponential Linear Unit, or ELU for short, is also a variant of ReLU that modifies the slope of the negative part of the function. 
+ELU uses a log curve to define the negativ values unlike the leaky ReLU and Parametric ReLU functions with a straight line.
+
+\begin{textblock*}{4.0cm}(2.4cm,4.0cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0cm 0cm 0 0cm},clip=True]{images/elufunction_derivative.pdf}
+\end{textblock*}
+
+\begin{textblock*}{4.0cm}(7.5cm,4.0cm) % {block width} (coords)
+\begin{align*}
+\varphi(z)&=\begin{cases}
+    z, & \text{if $z \geq 0$}\\
+    \alpha(e^z-1), & \text{otherwise}.
+    \end{cases}
+   \end{align*}
+   \begin{align*}
+    \varphi'(z)&=\begin{cases}
+    1, & \text{if $z \geq 0$}\\
+    \alpha e^z, & \text{otherwise}.
+    \end{cases}
+\end{align*}
+ \end{textblock*}
+
+
+\vspace{3.3cm}
+
+limitations:\\
+\begin{itemize}
+\item It increases the computational time because of the exponential operation included.
+\item No learning of an $\alpha$ parameter.
+\item exploding gradient problem
+\end{itemize}
+
+\end{footnotesize}
+
+}
+
+
+
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+        % \value{tocdepth}
+        \frametitle{Activation Functions}
+        
+\vspace{-0.1cm}        
+        
+        
+     \textbf{Softmax Activation Function}
+
+\begin{footnotesize}
+
+Softmax is different from the rest of the activation function as it calculates the probabilities distribution of the event over different events, i.e. the probabilities of each target class over all possible target classes. 
+
+Softmax takes as input a vector $\mathbf{z}$ of $K$ real numbers, and normalizes it into a probability distribution consisting of $K$ probabilities proportional to the exponentials of the input numbers. \\
+
+\vspace{0.1cm}
+
+$\Rightarrow$ After applying softmax, each component will be in $(0,1)$, the components will add up to 1, and they can be interpreted as probabilities.
+
+\vspace{0.38cm}
+
+\textbf{example:}
+    
+\begin{textblock*}{5.0cm}(2.2cm,6.4cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0cm 0cm 0 0cm},clip=True]{images/softmax_diagram.png}    
+\end{textblock*}
+
+
+\begin{textblock*}{4.8cm}(7.8cm,6.3cm) % {block width} (coords)
+\begin{scriptsize}
+1. Exponentiate every element of the output layer and sum the results (around 181.73 in this exemple).\\
+
+\vspace{0.1cm}
+
+2. Each element of the output layer is exponentiated and divided by the sum obtained in step 1 (exp(1.3) / 181.37 = 3.67 / 181.37 = 0.02)\\
+
+\end{scriptsize}
+\end{textblock*}
+
+
+
+\end{footnotesize}
+
+
+}
+
+
+
+
+
+
+
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+        % \value{tocdepth}
+        \frametitle{Activation Functions}
+        
+\vspace{-0.1cm}        
+        
+        
+     \textbf{Softmax Activation Function}
+
+\begin{footnotesize}
+
+Softmax is different from the rest of the activation function as it calculates the probabilities distribution of the event over different events, i.e. the probabilities of each target class over all possible target classes. 
+
+Softmax takes as input a vector $\mathbf{z}$ of $K$ real numbers, and normalizes it into a probability distribution consisting of $K$ probabilities proportional to the exponentials of the input numbers. \\
+
+\vspace{0.1cm}
+
+$\Rightarrow$ After applying softmax, each component will be in $(0,1)$, the components will add up to 1, and they can be interpreted as probabilities.
+
+\vspace{0.38cm}
+
+
+\textbf{example:}
+    
+\begin{textblock*}{3.8cm}(2.2cm,6.3cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0cm 0cm 0 0cm},clip=True]{images/softmax_diagram.png}    
+\end{textblock*}
+
+
+\vspace{2.4cm}
+
+
+
+\textbf{usage:} Softmax is used for multi-classification, whereas Sigmoid is used for binary classification.
+
+
+
+\end{footnotesize}
+
+
+}
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+        % \value{tocdepth}
+        \frametitle{Activation Functions}
+        
+\vspace{-0.1cm}        
+        
+        
+     \textbf{Swish}
+
+\begin{footnotesize}
+
+Swish (developed by researchers at Google) matches or outperforms ReLU activation function on deep networks applied to various challenging domains such as image classification, machine translation etc. Swish is bounded below but unbounded above, i.e. $\varphi(z) \rightarrow \mathrm{const}$ for $z \rightarrow -\infty$ but $\varphi(z) \rightarrow \infty $ for $z \rightarrow \infty$.
+
+\begin{textblock*}{4.7cm}(2.4cm,4.3cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim={0cm 0cm 0 0cm},clip=True]{images/swishfunction_graph.pdf}
+\end{textblock*}
+
+\begin{textblock*}{4.0cm}(7.8cm,4.5cm) % {block width} (coords)
+\begin{align*}
+\varphi(z)&=z\times\mathrm{sigmoid}(z)\\&=\frac{z}{1+\exp(-z)}
+\end{align*}
+ \end{textblock*}
+
+
+\vspace{2.8cm}
+
+advantages over ReLU:\\
+\begin{itemize}
+\item Other than ReLU, Swish is a smooth function.
+\item Small negative values were zeroed out in ReLU activation function. However, those negative values may still be relevant for capturing patterns underlying the data. 
+\item The swish function being non-monotonous enhances learning.
+\end{itemize}
+
+\end{footnotesize}
+
+}
+
+
+ 
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+        % \value{tocdepth}
+        \frametitle{Activation Functions}
+        
+\begin{footnotesize}
+
+How to \textbf{choose} the right Activation Function?
+
+\vspace{0.5cm}
+
+\pause
+
+Some guidelines:
+\begin{itemize}
+\item ReLU activation function should only be used in the hidden layers.
+\item Sigmoid and Tanh functions should not be used in hidden layers as they make the model more susceptible to problems during training (due to vanishing gradients).
+\item Swish function is used in neural networks having more than 40 layers.
+\end{itemize}
+
+\pause
+
+\vspace{0.5cm}
+
+The activation function used in \textbf{hidden layers} is typically chosen based on the type of neural network architecture.
+\begin{itemize}
+\item Convolutional Neural Network (CNN)*: ReLU activation function.
+\item Recurrent Neural Network*: Tanh and/or Sigmoid activation function.
+\end{itemize}
+
+
+\vspace{0.5cm}
+
+\begin{scriptsize}
+* more on this later on
+\end{scriptsize}
+
+
+
+\end{footnotesize}
+
+
+
+}
+
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+        % \value{tocdepth}
+        \frametitle{Activation Functions}
+        
+\begin{footnotesize}
+
+How to \textbf{choose} the right Activation Function?
+
+\vspace{0.5cm}
+
+You need to match your activation function for your \textbf{output layer} based on the type of prediction problem that you are solving - specifically, the type of predicted:
+\begin{itemize} 
+\item Regression: Linear Activation Function
+\item Binary Classification: Sigmoid/Logistic Activation Function
+\item Multiclass Classification: Softmax
+\item Multilabel Classification: Sigmoid
+\end{itemize}
+
+\end{footnotesize}
+
+}
+ 
+ 
+ 
+ 
+   
+\section[Outlook]{Outlook}
+
+
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{An Outlook: Learning Paradigms \& Applications}
+
+\vspace{-0.25cm}
+
+
+\begin{footnotesize}
+
+\textbf{Supervised learning} uses a training set of paired inputs and desired outputs. The learning task is to produce the desired output for each input. \\
+
+\vspace{0.15cm}
+
+In this case the loss function is related to eliminating incorrect deductions. A commonly used loss function is the mean-squared error, which tries to minimize the average squared error between the network's output and the desired output by providing continuous feedback on the quality of solutions.  \\
+
+\vspace{0.15cm}
+
+Tasks suited for supervised learning with neural networks are pattern recognition (classification) and regression (function approximation), also applicable to sequential data (e.g., speech and gesture recognition). 
+
+
+\end{footnotesize}
+
+
+\begin{textblock*}{3.2cm}(4.7cm,5.6cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim=0.0cm 0.0cm 0.0cm 0cm, clip=true]{images/2018-106-5-huertas-company-natural-1.jpg}    \end{textblock*}
+
+
+\vspace{3.5cm}
+
+\begin{scriptsize}
+Simulations by Daniel Ceverino and Joel Primack; simulated images by Greg Snyder and Marc Huertas-Company; Hubble Space Telescope CANDELS.\\
+\end{scriptsize}
+
+}
+
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Learning Paradigms}
+
+
+\vspace{-0.25cm}
+
+
+\begin{footnotesize}
+
+\textbf{Unsupervised learning} uses input data along with a loss function which depends on the task (the \textbf{model domain}) and prior assumptions (the implicit properties of the model, its parameters and the observed variables). From this, unsupervised learning tries to find hidden pattern in the data.
+
+
+\vspace{0.15cm}
+
+Tasks that fall within the paradigm of unsupervised learning are in general estimation problems; the applications include clustering, the estimation of statistical distributions, compression and filtering. 
+ 
+ 
+ 
+\end{footnotesize}
+
+
+\begin{textblock*}{6.2cm}(3.7cm,5.16cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim=0.0cm 0.0cm 0.0cm 0cm, clip=true]{images/aa34473-18-fig4.pdf}    \end{textblock*}
+
+
+\vspace{4.6cm}
+
+\begin{scriptsize}
+Denoising light curves by applying an autoencoder. Pasquet et al. (2019).\\
+\end{scriptsize}
+
+
+
+}
+
+
+\frame[t]
+{
+ %\usebeamercolor[fg]{whitetext}
+	% \value{tocdepth}
+	\frametitle{Learning Paradigms}
+	
+	
+		\frametitle{Learning Paradigms}
+
+
+\vspace{-0.25cm}
+
+
+\begin{footnotesize}
+
+\textbf{Reinforcement learning} aims to weight the network (devise a policy) to perform actions by an agent that minimize long-term (expected cumulative) loss by an environment. At any juncture, the agent decides whether to explore new actions to uncover their loss or to exploit prior learning to proceed more quickly. 
+
+
+
+\vspace{0.15cm}
+
+Applications of reinforcement learning are such as robotics, observational schedules for telescopes, job scheduling for data centers.
+
+\end{footnotesize}
+
+
+\begin{textblock*}{8.2cm}(2.7cm,5.16cm) % {block width} (coords)
+\includegraphics[width=1.0\textwidth,trim=0.0cm 0.0cm 0.0cm 0cm, clip=true]{images/3-Figure1-1.png}    \end{textblock*}
+
+
+\vspace{4.0cm}
+
+\begin{scriptsize}
+Job Scheduling on Data Centers with Deep Reinforcement Learning. Liang \& Yang (2019).\\
+\end{scriptsize}
+
+}
+
+
+\end{document}
